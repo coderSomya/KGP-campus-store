@@ -1,13 +1,18 @@
-import { StyleSheet, Text, View, Image, KeyboardAvoidingView, TextInput } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, KeyboardAvoidingView, TextInput, Pressable } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {MaterialIcons} from "@expo/vector-icons"
 import {AntDesign} from "@expo/vector-icons"
+import { useNavigation } from '@react-navigation/native'
 
 const cat = require('../assets/cat.jpg')
 
 const LoginScreen = () => {
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+ const navigation = useNavigation();
   return (
     <SafeAreaView style={{
       flex:1,
@@ -33,13 +38,30 @@ const LoginScreen = () => {
         <View styles={{marginTop: 30}}>
 <View style={styles.LoginInput}>
 <MaterialIcons name='email' size={24} color="black"/>
-<TextInput placeholder="Enter your Email" style={{width: 300}}/>
+<TextInput value={email} onChangeText={(text)=> setEmail(text)}
+placeholder="Enter your Email" style={{width: 300, fontSize: 18}}/>
 </View>
 <View style={styles.LoginInput}>
 <AntDesign name='lock1' size={24} color="black"/>
-<TextInput placeholder="Enter your Password" type="password" style={{width: 300}}/>
+<TextInput value={password} onChangeText={(text)=>setPassword(text)} secureTextEntry={true}
+placeholder="Enter your Password" type="password" style={{width: 300, fontSize:18}}/>
 </View>
         </View>
+        <View style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginHorizontal: 10,
+          marginVertical: 10
+        }}>
+<Pressable style={styles.LoginButton}>
+  <Text style={styles.LoginButtonText}>Login</Text>
+</Pressable>
+<Pressable style={styles.LoginButton}
+onPress={()=>navigation.navigate("Register")}
+>
+  <Text style={styles.LoginButtonText}>Register</Text>
+</Pressable>
+</View>
       </KeyboardAvoidingView>
     </View>
     </SafeAreaView>
@@ -64,5 +86,13 @@ const styles = StyleSheet.create({
      backgroundColor: "#c5c5c5",
      color: "white",
      marginTop: 20,
+  },
+  LoginButton:{
+    alignItems: 'center',
+    marginTop: 10
+  },
+  LoginButtonText:{
+    fontSize:17,
+    fontWeight:"600"
   }
 })
